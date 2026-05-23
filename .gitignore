@@ -1,0 +1,23 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+agent/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Temp clones
+frontend-temp/
+agent-temp/
+
+# OS
+.DS_Store
+Thumbs.db
