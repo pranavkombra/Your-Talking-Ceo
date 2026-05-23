@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
-from livekit import api, rtc
+from livekit import rtc
 from livekit.agents import (
     Agent,
     AgentServer,
@@ -37,6 +37,15 @@ LEADS_PATH = ROOT / "leads.json"
 # Room name from environment or default
 ROOM_NAME = os.getenv("LIVEKIT_ROOM", "maneuver-room")
 
+# Visual tools (each registered once on ManeuverTools via @function_tool)
+MANEUVER_TOOLS = (
+    "show_services_slide",
+    "show_service_detail",
+    "show_process_diagram",
+    "update_lead_field",
+    "show_case_studies",
+)
+
 
 class AlexAgent(ManeuverTools, Agent):
     """Alex — Maneuver founder voice agent with discovery + Q&A modes."""
@@ -46,9 +55,9 @@ class AlexAgent(ManeuverTools, Agent):
         self.lead_store = lead_store
         kb = load_knowledge_base()
 
-        super().__init__(
-            instructions=build_instructions(kb),
-        )
+        # Tools register ONCE via @function_tool on ManeuverTools — do NOT pass tools= here
+        # (passing tools= again causes ValueError: duplicate function name)
+        super().__init__(instructions=build_instructions(kb))
 
 
 server = AgentServer()

@@ -75,6 +75,70 @@
   --maneuver-accent: #818cf8;
 }
 
+/* —— Maneuver visual panel —— */
+@keyframes maneuver-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes maneuver-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.visual-panel {
+  animation: maneuver-fade-in 0.35s ease-out;
+}
+
+.visual-card {
+  animation: maneuver-slide-in 0.4s ease-out backwards;
+}
+
+.service-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--maneuver-accent) 35%, transparent);
+  border-color: color-mix(in srgb, var(--maneuver-accent) 40%, var(--border));
+}
+
+.visual-tab {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.visual-tab-active {
+  animation: maneuver-fade-in 0.2s ease-out;
+}
+
+.visual-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.visual-tabs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
 @theme inline {
   --font-sans:
     var(--font-public-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',

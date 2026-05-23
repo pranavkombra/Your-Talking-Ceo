@@ -6,7 +6,7 @@ import { AgentDisconnectButton } from '@/components/agents-ui/agent-disconnect-b
 import { AgentTrackControl } from '@/components/agents-ui/agent-track-control';
 import { cn } from '@/lib/shadcn/utils';
 
-const STATE_LABELS: Record<AgentState, string> = {
+const STATE_LABELS: Partial<Record<AgentState, string>> = {
   disconnected: 'OFFLINE',
   connecting: 'CONNECTING',
   initializing: 'STARTING',
@@ -14,9 +14,11 @@ const STATE_LABELS: Record<AgentState, string> = {
   thinking: 'THINKING',
   speaking: 'SPEAKING',
   failed: 'ERROR',
+  idle: 'IDLE',
+  'pre-connect-buffering': 'BUFFERING',
 };
 
-const STATE_COLORS: Record<AgentState, string> = {
+const STATE_COLORS: Partial<Record<AgentState, string>> = {
   disconnected: 'bg-muted text-muted-foreground',
   connecting: 'bg-amber-500/20 text-amber-600',
   initializing: 'bg-amber-500/20 text-amber-600',
@@ -24,7 +26,17 @@ const STATE_COLORS: Record<AgentState, string> = {
   thinking: 'bg-amber-500/20 text-amber-600',
   speaking: 'bg-[var(--maneuver-accent)]/20 text-[var(--maneuver-accent)]',
   failed: 'bg-destructive/20 text-destructive',
+  idle: 'bg-muted text-muted-foreground',
+  'pre-connect-buffering': 'bg-amber-500/20 text-amber-600',
 };
+
+function labelForState(state: AgentState): string {
+  return STATE_LABELS[state] ?? state.toUpperCase();
+}
+
+function colorForState(state: AgentState): string {
+  return STATE_COLORS[state] ?? 'bg-muted text-muted-foreground';
+}
 
 interface VoicePanelProps {
   className?: string;
@@ -52,10 +64,10 @@ export function VoicePanel({ className }: VoicePanelProps) {
         <div
           className={cn(
             'rounded-full px-4 py-1.5 text-xs font-bold tracking-wider',
-            STATE_COLORS[agentState]
+            colorForState(agentState)
           )}
         >
-          {STATE_LABELS[agentState]}
+          {labelForState(agentState)}
         </div>
 
         <div className="flex h-32 w-full max-w-xs items-center justify-center">
