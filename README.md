@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # Maneuver Voice AI — Talk to Founder
 
-A full-stack voice AI application that lets prospects have a natural conversation with **Husain Topiwala**, founder of **Maneuver**. Alex runs discovery (who you are, your problem, timeline, budget) and answers questions about Maneuver — with visuals that appear in sync with the voice via LiveKit RPC.
+A full-stack voice AI application that lets prospects have a natural conversation with **Husain Topiwala**, founder of **Maneuver**. Husain runs discovery (who you are, your problem, timeline, budget) and answers questions about Maneuver — with visuals that appear in sync with the voice via LiveKit RPC.
 
 ## Architecture
 
