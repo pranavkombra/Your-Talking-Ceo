@@ -36,19 +36,10 @@ export async function POST(req: Request) {
     }
 
     // Parse room config from request body.
-    const body = await req.json().catch(() => ({}));
-    let roomConfig = body?.room_config
+    const body = await req.json();
+    const roomConfig = body?.room_config
       ? RoomConfiguration.fromJson(body.room_config, { ignoreUnknownFields: true })
       : new RoomConfiguration();
-
-    // Default agent dispatch when frontend sends agentName via room_config or AGENT_NAME is set
-    const agentName = process.env.AGENT_NAME ?? 'maneuver-alex';
-    if ((!roomConfig.agents || roomConfig.agents.length === 0) && agentName) {
-      roomConfig = RoomConfiguration.fromJson(
-        { agents: [{ agent_name: agentName }] },
-        { ignoreUnknownFields: true }
-      );
-    }
 
     // Generate participant token
     const participantName = 'user';
@@ -73,10 +64,16 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(data, { headers });
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error);
-      return new NextResponse(error.message, { status: 500 });
-    }
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('[Token API Error]', errorMessage);
+    const headers = new Headers({
+      'Cache-Control': 'no-store',
+      'Content-Type': 'application/json',
+    });
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: 500, headers }
+    );
   }
 }
 

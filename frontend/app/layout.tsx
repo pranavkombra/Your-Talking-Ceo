@@ -1,4 +1,4 @@
-import { Public_Sans } from 'next/font/google';
+import { DM_Sans, DM_Serif_Display } from 'next/font/google';
 import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { ThemeProvider } from '@/components/app/theme-provider';
@@ -7,9 +7,16 @@ import { cn } from '@/lib/shadcn/utils';
 import { getAppConfig, getStyles } from '@/lib/utils';
 import '@/styles/globals.css';
 
-const publicSans = Public_Sans({
-  variable: '--font-public-sans',
+const dmSans = DM_Sans({
+  variable: '--font-dm-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  variable: '--font-dm-serif',
+  subsets: ['latin'],
+  weight: ['400'],
 });
 
 const commitMono = localFont({
@@ -54,7 +61,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       lang="en"
       suppressHydrationWarning
       className={cn(
-        publicSans.variable,
+        dmSans.variable,
+        dmSerifDisplay.variable,
         commitMono.variable,
         'scroll-smooth font-sans antialiased'
       )}

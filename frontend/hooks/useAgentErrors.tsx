@@ -28,6 +28,43 @@ export function useAgentErrors() {
   const agent = useAgent();
   const { isConnected, end } = useSessionContext();
 
+  // Log connection errors
+  useEffect(() => {
+    const handleError = (event: ErrorEvent | Event) => {
+      const error = event instanceof ErrorEvent ? event.error : new Error(String(event));
+      const message = error?.message || String(error);
+      
+      console.error('[Connection Error]', message);
+      
+      if (message.includes('Failed to fetch') || message.includes('serverUnreachable')) {
+        console.error('[Connection Diagnostic]', {
+          timestamp: new Date().toISOString(),
+          error: message,
+          suggestions: [
+            '1. Check if /api/token endpoint is returning 200',
+            '2. Verify LIVEKIT_URL is defined in frontend/.env.local',
+            '3. Restart frontend dev server after adding .env.local',
+            '4. Check browser DevTools Network tab for /api/token request',
+            '5. Ensure LiveKit server URL is accessible from your browser',
+          ],
+        });
+        
+        toastAlert({
+          title: 'Connection Failed',
+          description: (
+            <div className="space-y-2">
+              <p>Could not establish connection to LiveKit server.</p>
+              <p className="text-xs opacity-75">Check browser console for diagnostics.</p>
+            </div>
+          ),
+        });
+      }
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
   useEffect(() => {
     if (isConnected && agent.state === 'failed') {
       const reasons = agent.failureReasons;

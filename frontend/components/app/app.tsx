@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { TokenSource } from 'livekit-client';
 import { useSession } from '@livekit/components-react';
 import { WarningIcon } from '@phosphor-icons/react/dist/ssr';
@@ -11,6 +11,7 @@ import { ViewController } from '@/components/app/view-controller';
 import { Toaster } from '@/components/ui/sonner';
 import { useAgentErrors } from '@/hooks/useAgentErrors';
 import { useDebugMode } from '@/hooks/useDebug';
+import { useRoomConnectionDebug } from '@/hooks/useRoomConnectionDebug';
 import { getSandboxTokenSource } from '@/lib/utils';
 
 const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
@@ -18,6 +19,7 @@ const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
 function AppSetup() {
   useDebugMode({ enabled: IN_DEVELOPMENT });
   useAgentErrors();
+  useRoomConnectionDebug();
 
   return null;
 }
@@ -28,9 +30,12 @@ interface AppProps {
 
 export function App({ appConfig }: AppProps) {
   const tokenSource = useMemo(() => {
-    return typeof process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT === 'string'
-      ? getSandboxTokenSource(appConfig)
-      : TokenSource.endpoint('/api/token');
+    if (typeof process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT === 'string') {
+      return getSandboxTokenSource(appConfig);
+    }
+    
+    console.log('[App] Using token endpoint: /api/token');
+    return TokenSource.endpoint('/api/token');
   }, [appConfig]);
 
   const session = useSession(
@@ -38,10 +43,18 @@ export function App({ appConfig }: AppProps) {
     appConfig.agentName ? { agentName: appConfig.agentName } : undefined
   );
 
+  // Log session state changes for debugging
+  useEffect(() => {
+    console.log('[App] Session state:', {
+      isConnected: session?.isConnected || false,
+      isConnecting: session?.isConnecting || false,
+    });
+  }, [session?.isConnected, session?.isConnecting]);
+
   return (
     <AgentSessionProvider session={session}>
       <AppSetup />
-      <main className="grid h-svh grid-cols-1">
+      <main className="grid h-svh grid-cols-1 place-content-center">
         <ViewController appConfig={appConfig} />
       </main>
       <StartAudioButton label="Start Audio" />

@@ -17,15 +17,6 @@ logger = logging.getLogger("maneuver.tools")
 
 LEAD_FIELDS = frozenset({"name", "company", "problem", "timeline", "budget"})
 
-SERVICE_NAMES = frozenset(
-    {
-        "Product Strategy",
-        "UX/UI Design",
-        "MVP Development",
-        "Growth Consulting",
-    }
-)
-
 # Payloads sent to the frontend via RPC (mirrors frontend/lib/maneuver-data.ts)
 SERVICES_DATA: list[dict[str, str]] = [
     {
@@ -178,25 +169,6 @@ class ManeuverTools:
             {"tab": "services", "services": SERVICES_DATA},
         )
         return "Services displayed on visual panel."
-
-    @function_tool()
-    async def show_service_detail(self, context: RunContext, name: str) -> str:
-        """Highlight one service on the visual panel.
-
-        Args:
-            name: Product Strategy, UX/UI Design, MVP Development, or Growth Consulting.
-        """
-        normalized = name.strip()
-        for service in SERVICE_NAMES:
-            if service.lower() in normalized.lower() or normalized.lower() in service.lower():
-                normalized = service
-                break
-
-        await self.rpc.call(
-            "show_service_detail",
-            {"tab": "services", "name": normalized, "services": SERVICES_DATA},
-        )
-        return f"Showing detail for {normalized}."
 
     @function_tool()
     async def show_process_diagram(self, context: RunContext) -> str:
