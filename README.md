@@ -178,9 +178,18 @@ Fields update live as Alex learns them during discovery.
 | RPC visuals missing | Confirm you're connected; check browser console for RPC registration |
 | API errors | Verify all API keys in `agent/.env.local` |
 
-## License
+IF I HAD 1 MORE WEEK, I WOULD DO THIS:
+1️⃣ INTELLIGENT SERVICE POPUPS
+While users are mid-conversation, the AI would intelligently trigger relevant service popups based on what they're saying — no interrupting, just smart contextual suggestions.
 
-Built on [LiveKit agent-starter-react](https://github.com/livekit-examples/agent-starter-react) and [LiveKit Agents](https://github.com/livekit/agents).
+2️⃣ BUSINESS-RELEVANT VOICE
+I would add deep configuration prompts to customize the voice tone, personality, and industry jargon so it sounds exactly like your business — whether luxury or tech.
+
+3️⃣ FULLY CONFIGURABLE PROMPT ENGINE
+The AI would learn your business rules and response guidelines, adapting to your specific industry needs through prompt injection.
+
+
+
 =======
-# Your-Talking-Ceo
+# Your-Talking-Ceo (PRANAV K S)
 >>>>>>> ed5c31bcb171615e717a47f032e98e89d35448b1
