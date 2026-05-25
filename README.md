@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Maneuver Voice AI — Talk to Founder
 
 A full-stack voice AI application that lets prospects have a natural conversation with **Alex**, founder of **Maneuver**. Alex runs discovery (who you are, your problem, timeline, budget) and answers questions about Maneuver — with visuals that appear in sync with the voice via LiveKit RPC.
@@ -180,3 +181,6 @@ Fields update live as Alex learns them during discovery.
 ## License
 
 Built on [LiveKit agent-starter-react](https://github.com/livekit-examples/agent-starter-react) and [LiveKit Agents](https://github.com/livekit/agents).
+=======
+# Your-Talking-Ceo
+>>>>>>> ed5c31bcb171615e717a47f032e98e89d35448b1
